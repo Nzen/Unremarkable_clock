@@ -1,0 +1,90 @@
+
+absract
+A clock 'widget' to appear as an internal frame or as a component in a swing application. I intend to accomplish this via a three class heirarchy: Clock and DigitalClock, AnalogClock that inherit from it.
+
+Clock API
+
+Clock( x,y, w,h )
+Clock( x,y,w,h,12?,sec?,format,zone,savings,fcolor,bcolor )
+
+
+int getXpos()
+int getYpos()
+void setXpos( int nXpix )
+void setYpos( int nYpix )
+
+int getWidth()
+int getHeight()
+setWidth( int nWpix ) [1]
+setHeight( int nHpix )
+
+set12hour( boolean notMilitary )
+setShowSeconds( boolean sure )
+setDateFormat( String followsJavaText_SimpleDateFormat ) [2]
+
+setTimeZone( int gmt )
+setDaylightSavings( boolean enable )
+
+setColors( awt.Color text, awt.Color chrome )
+
+ - uncertain -
+Clock( DBHandle soItSets, String[] ) [3]
+setNumeralFont( awt.Font name )
+setNumeralType( NumeralType thisIsAnEnum ) [4]
+createOwnFrame( boolean notInsideAnInternalFrame ) [5]
+setAlarm( Date when, int secondsDuration, AlarmType soundColorFlash ) [6]
+Date getCurrentTime()
+
+= Notes =
+1.  As the font must be calculated from the width and height, I suspect that setting arbitrary width and height may take some time.
+
+2. see site for format string convention: http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
+
+3. I assume that the client will set most of these variables by hand, but with a schema and database handle, the clock could be made to read most of these settings from a database.
+
+4. In this case, I'd like to communicate via an Enum type with the constants { DECIMAL,ROMAN,UNIFORM }.
+ I invite more types, and recognize that uniform is more appropriate to Analog than digital. (See https://flic.kr/p/au7HDx for an example.) The client may need to persist NumeralType and other enums. The enum is responsible for conversion and should accomodate both strings or integers. It should probably do so via methods like persistString()/persistInt() and receivePersistedValue( String/int fromDB ).
+
+5. I am not sure whether the client desires this to be a component pastable to any layout or prefers that it generate its own frame for general desktop use or in an internal frame.
+
+6.  Alarms are common features, but I don't know whether the client wants to handle that.
+
+-----
+
+DigitalClock API
+
+useCanvasRendering( boolean elseUseJLabel ) [1]
+setDateSide( RelativePosition ieBeforeAfterBelowAbove ) [2]
+textProportion( int ieBorderSize ) [3]
+
+- uncertain -
+setSeparationChar( char hyphenOrColons )
+
+= Notes =
+1.  An awt.canvas rendered digital clock can adopt a more complex look, but is more expensive to run. As noted in [1 : setWidth], there is an indirect correlation between font size in a JLabel and the component width. So, I need some time to figure out the ratios so the clock can lookup the conversion.
+
+2.  RelativePosition ought be an enum encoding { BEFORE, AFTER, ABOVE, BELOW }. Perhaps there are more variations on above below concerning whether the text is left/right aligned or centered.
+
+3. Another aspect relating the width/h and text size involves the proportion between the area of the component and the text area. This can vary from 1-100, but I anticipate rounding to integer font sizes. At least initially.
+
+--------
+
+AnalogClock API
+
+AnalogClock( x,y, w,h ) [1]
+AnalogClock( x,y, w,h, hands? )
+AnalogClock( [everything_for_Clock], hands? )
+
+showHands( boolean elseUseAdotOnEdge ) [2]
+setIndicatorWidth( int pixels )
+
+ - uncertain -
+setBackgroundPicture( File/String pictureOrPathToPicture )
+setHandsPicture( File/String pictureOrPathToPicture ) [3]
+setMinuteDivisions( boolean fourDivisionsElseNone )
+showHours( boolean orJustShow12oclockDot )
+
+= Notes =
+1.  Assumes hands
+
+2.  While most clocks do use hands, it is possible to draw a dot that follows the circumference of the edge instead. Or, if you want to be really fancy, there are line clocks, retrograde clocks, and clocks with a rotating dial. But those are, more appropriately, a subclass of Analog or Clock.
