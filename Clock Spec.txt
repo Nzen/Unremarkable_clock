@@ -43,7 +43,8 @@ Date getCurrentTime()
 3. I assume that the client will set most of these variables by hand, but with a schema and database handle, the clock could be made to read most of these settings from a database.
 
 4. In this case, I'd like to communicate via an Enum type with the constants { DECIMAL,ROMAN,UNIFORM }.
- I invite more types, and recognize that uniform is more appropriate to Analog than digital. (See https://flic.kr/p/au7HDx for an example.) The client may need to persist NumeralType and other enums. The enum is responsible for conversion and should accomodate both strings or integers. It should probably do so via methods like persistString()/persistInt() and receivePersistedValue( String/int fromDB ).
+ I invite more types, and recognize that uniform is more appropriate to Analog than digital. (See https://flic.kr/p/au7HDx for an example of uniform numerals.)
+ The client may need to persist NumeralType and other enums. The enum is responsible for conversion and should accomodate both strings or integers. It should probably do so via methods like persistString()/persistInt() and receivePersistedValue( String/int fromDB ).
 
 5. I am not sure whether the client desires this to be a component pastable to any layout or prefers that it generate its own frame for general desktop use or in an internal frame.
 

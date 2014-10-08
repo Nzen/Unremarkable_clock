@@ -39,6 +39,7 @@ public class ClockView
 	protected void clockPart( ClockConfig fromInit )
 	{
 		now = new Date(); // if I can get a new Long representing the current milliseconds, then I can update it :/
+		// however, if the thread ends up waiting, then this clock will run 'fast'
 		digits = new SimpleDateFormat( fromInit.getDateFormat() );
 		label.setText( digits.format(now) );
 	}

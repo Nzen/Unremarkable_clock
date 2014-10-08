@@ -1,0 +1,24 @@
+
+finish MOVE architecture
+ make change listeners for the model's values
+ finish clockconfig
+ finish clockInit
+
+finish clockconfig
+ colors
+ time zone
+ daylight savings
+ font ? might be more suited to subclasses
+ numeral type ?
+ w/h controls component, not frame
+
+finish clockInit
+ make other operation classes ? run , config editor , config loader
+
+Subclass: Digital Clock	(ie fancy digital)
+ digclockconfig (label/canvas day-date? text-proportion)
+ digiclockview (switchable between label / canvas , other fanciness)
+
+subclass: Analog clock
+ analogConf(hands, indicator? backPic? handsPic? sanity for pics?)
+ analogView(canvas drawing)
