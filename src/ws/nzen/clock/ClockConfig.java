@@ -1,6 +1,6 @@
 package ws.nzen.clock;
 
-public class ClockMod
+public class ClockConfig
 {
 	private int xPos;
 	private int yPos;
@@ -10,29 +10,48 @@ public class ClockMod
 	private boolean hasSec;
 	// probably won't keep the Date here, given it updates so quickly.
 
-	public ClockMod()
+	public ClockConfig()
 	{
 		xPos = 10;
 		yPos = 10;
-		wid = 200;
-		high = 200;
+		wid = 250;
+		high = 70;
+		milit = false;
+		hasSec = true;
 	}
 
-	public ClockMod( int x, int y, int w, int h )
+	public ClockConfig( int x, int y, int w, int h )
 	{
 		xPos = x;
 		yPos = y;
 		wid = w;
 		high = h;
+		milit = false;
+		hasSec = false;
 	}
 
-	public ClockMod( int x, int y, int w, int h, boolean military, int nn )
+	public ClockConfig( int x, int y, int w, int h, boolean military, boolean seconds )
 	{
 		xPos = x;
 		yPos = y;
 		wid = w;
 		high = h;
 		milit = military;
+		hasSec = seconds;
+	}
+
+	public String getDateFormat()
+	{
+		if ( hasSec )
+		{
+			return "hh:mm:ss";
+		}
+		// else if ( specified d format )
+		//		return that
+		else
+		{
+			return "hh:mm";
+		}
 	}
 
 	public int getXpos()
@@ -47,10 +66,16 @@ public class ClockMod
 	public int getHeight()
 	{	return high;	}
 
+	public boolean get12hour()
+	{	return milit;	}
+
+	public boolean getSecPref()
+	{	return hasSec;	}
+
 	public void setXpos( int newX )
 	{	xPos = newX;	}
 
-	public void setYpos( int newY )
+	public void setYpos( int newY ) // sanity checks on any of these? responsibility is here
 	{	yPos = newY;	}
 
 	public void setWidth( int newW )
