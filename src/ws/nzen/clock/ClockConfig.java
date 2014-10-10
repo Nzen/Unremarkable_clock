@@ -8,6 +8,7 @@ public class ClockConfig
 	private int high;
 	private boolean milit;
 	private boolean hasSec;
+	private EventInt fontSize; // FOR DEMO cut
 	// probably won't keep the Date here, given it updates so quickly.
 
 	public ClockConfig()
@@ -18,6 +19,7 @@ public class ClockConfig
 		high = 70;
 		milit = false;
 		hasSec = true;
+		fontSize = new EventInt(12);
 	}
 
 	public ClockConfig( int x, int y, int w, int h )
@@ -28,6 +30,7 @@ public class ClockConfig
 		high = h;
 		milit = false;
 		hasSec = false;
+		fontSize = new EventInt(12);
 	}
 
 	public ClockConfig( int x, int y, int w, int h, boolean military, boolean seconds )
@@ -38,6 +41,7 @@ public class ClockConfig
 		high = h;
 		milit = military;
 		hasSec = seconds;
+		fontSize = new EventInt(12);
 	}
 
 	public String getDateFormat()
@@ -52,6 +56,11 @@ public class ClockConfig
 		{
 			return "hh:mm";
 		}
+	}
+
+	public void registerListener( ClockView theView )
+	{
+		fontSize.addChangeListener( theView );
 	}
 
 	public int getXpos()
@@ -72,6 +81,9 @@ public class ClockConfig
 	public boolean getSecPref()
 	{	return hasSec;	}
 
+	public int getFontSize()
+	{	return fontSize.is();	}
+
 	public void setXpos( int newX )
 	{	xPos = newX;	}
 
@@ -86,4 +98,10 @@ public class ClockConfig
 
 	public void set12hour( boolean whether )
 	{	milit = whether;	}
+
+	public void setFontSize( int nSize )
+	{
+		// sanity check
+		fontSize.set( nSize );
+	}
 }
