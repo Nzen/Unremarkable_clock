@@ -1,6 +1,6 @@
 package ws.nzen.clock;
 
-public class ClockConfig
+public class ClockSettings
 {
 	private int xPos;
 	private int yPos;
@@ -11,7 +11,7 @@ public class ClockConfig
 	private EventInt fontSize; // FOR DEMO cut
 	// probably won't keep the Date here, given it updates so quickly.
 
-	public ClockConfig()
+	public ClockSettings()
 	{
 		xPos = 10;
 		yPos = 10;
@@ -22,7 +22,7 @@ public class ClockConfig
 		fontSize = new EventInt(12);
 	}
 
-	public ClockConfig( int x, int y, int w, int h )
+	public ClockSettings( int x, int y, int w, int h )
 	{
 		xPos = x;
 		yPos = y;
@@ -33,7 +33,7 @@ public class ClockConfig
 		fontSize = new EventInt(12);
 	}
 
-	public ClockConfig( int x, int y, int w, int h, boolean military, boolean seconds )
+	public ClockSettings( int x, int y, int w, int h, boolean military, boolean seconds )
 	{
 		xPos = x;
 		yPos = y;
@@ -58,6 +58,7 @@ public class ClockConfig
 		}
 	}
 
+	// eventint holds a ref to the cView now, to call its stateChanged() when appropriate
 	public void registerListener( ClockView theView )
 	{
 		fontSize.addChangeListener( theView );
@@ -102,6 +103,9 @@ public class ClockConfig
 	public void setFontSize( int nSize )
 	{
 		// sanity check
-		fontSize.set( nSize );
+		if ( nSize < 0 )
+			return;
+		else
+			fontSize.set( nSize );
 	}
 }

@@ -1,12 +1,15 @@
 package ws.nzen.clock;
 
-import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Font;
+import java.awt.Insets;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -14,66 +17,59 @@ import javax.swing.event.ChangeListener;
 public class ClockView implements ChangeListener
 {
 	private JFrame frame;
-	private JLabel label;
 	private Date now;
-	private JButton bigFonter;
+	private JButton editor;
 	private SimpleDateFormat digits;
+	private ClockPane clockFace;
 	//private ClockConfig model;
 
-	public ClockView( ClockConfig fromInit ) // FIX model
-	{
-		//model = fromInit;
-		guiPart(fromInit );
-		clockPart(fromInit );
-		// frame.pack(); // appropriate once the w/h refers to the component not the frame
-		frame.setVisible(true);
-	}
-
-	protected void guiPart( ClockConfig model ) // FIX model
+	public ClockView( ClockSettings fromInit )
 	{
 		frame = new JFrame( "Clock : Nzen" );
-		frame.setLocation( model.getXpos(), model.getYpos() );
-		frame.setSize( model.getWidth(), model.getHeight() );
+		frame.setLocation( fromInit.getXpos(), fromInit.getYpos() );
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(new FlowLayout());
-		label = new JLabel();
-		bigFonter = new JButton( "bigger font" );
-		frame.getContentPane().add(label);
-		frame.getContentPane().add(bigFonter);
+		JPanel bounds = new JPanel( new GridBagLayout() );
+		frame.getContentPane().add(bounds);
+		clockFace = new ClockPane( fromInit.getDateFormat(), fromInit.getWidth(), fromInit.getHeight() );
+		editor = new JButton( "edit" );
+		GridBagConstraints clockRectangle =
+				new GridBagConstraints(0, 0, 3, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0 );
+		//							gridx, gridy, gridwidth, gridheight, weightx, weighty, anchor, fill, insets, ipadx, ipady
+		bounds.add( clockFace.compPart(), clockRectangle );
+		GridBagConstraints editorRectangle =
+				new GridBagConstraints(2, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0 );
+		bounds.add(editor, editorRectangle);
+		frame.pack(); // appropriate once the w/h refers to the component not the frame
+		frame.setVisible(true);
 
-		awaitFontChange( model );
+		awaitFontChange( fromInit );
 	}
 
-	protected void clockPart( ClockConfig model )
+	// button will call actionPerformed() within handler
+	public void addListener( RunClock handler )
 	{
-		now = new Date(); // if I can get a new Long representing the current milliseconds, then I can update it :/
-		// however, if the thread ends up waiting, then this clock will run 'fast'
-		digits = new SimpleDateFormat( model.getDateFormat() );
-		label.setText( digits.format(now) );
+		editor.addActionListener( handler );
 	}
 
-	public void addListener( ClockInit handler )
-	{
-		bigFonter.addActionListener( handler );
-	}
-
-	public void awaitFontChange( ClockConfig fromInit )
+	// sends reference to cset of self for settings to call when stateChanges
+	public void awaitFontChange( ClockSettings fromInit )
 	{
 		fromInit.registerListener( this );
 	}
 
 	public void updateTime( int delay )
 	{
-		now.setTime( now.getTime() + delay );
-		label.setText( digits.format(new Date()) );
+		clockFace.updateTime( delay );
 	}
 
+	// called by clockSettings when the font size changes
 	public void stateChanged( ChangeEvent ev ) // from config
 	{
 		EventInt nn = (EventInt)ev.getSource();
 		int nSize = nn.is();
-		label.setFont( new Font( "Serif", Font.PLAIN, nSize ) ); // and then get the value from the valuechanged event
+		clockFace.setFont( new Font( "Serif", Font.PLAIN, nSize ) ); // and then get the value from the valuechanged event
 		// or, dump model and do ClockConfig model = ev.getSource()
 		// l.set( n F("" f.f, model.getfontsize() ); // except this might actually surrender the EventFiringInteger that changed, not the parent. hmm
+		frame.repaint();
 	}
 }
