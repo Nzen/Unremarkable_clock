@@ -1,15 +1,16 @@
 
 	15 Oct
+X model sends events
+X FrameW, frameH
+\
  event messaging
-custom events, subclasses of abstract events that reference the destination
 { couldn't as they expect general in arg and then I cast to appropriate. Just put enum inside :p }
-settingsView sends events to viewRoot - run - updatesSettings - clockSettings - [back up] - clockview
+more spinners for more fields
  ModelRoot
 to make the architecture symmetric, ie this will sort events for the model classes rather than Run
- ClockSettings
-FrameW, frameH
  dispose on close
 window.addwindowlistener ; setDefaultCloseOperation( nn.DISPOSE_ON_CLOSE )
+\
 
 	8 Oct
 finish MOVE architecture

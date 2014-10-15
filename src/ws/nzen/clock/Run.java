@@ -2,53 +2,79 @@ package ws.nzen.clock;
 
 public class Run
 {
-	private RunClock mainOp;
-	private UpdatesSettings configger;
+	private ClockRunner mainOp;
+	private SettingsChanger configger;
+	//
 	private ViewRoot holdsGuis;
+	private ClockSettings clockSpec;
 
 	public static void main( String[] args )
 	{
 		Run everything = new Run();
-		/*RunClock mainOp = new RunClock();
-		ViewRoot holdsGuis = new ViewRoot();
-		holdsGuis.genClockView( mainOp.upSettings() );
-		mainOp.getVparent( holdsGuis ); // CUT and move to here
-		mainOp.receiveClockV( holdsGuis.getCview() );
-		mainOp.launchClock();
-		// le sigh
-		//mainOp.channelUp( everything );
-		*/
 	}
 
 	public Run()
 	{
-		mainOp = new RunClock( this );
+		mainOp = new ClockRunner( this );
 		holdsGuis = new ViewRoot( this );
-		holdsGuis.genClockView( mainOp.upSettings() );
-		mainOp.getVparent( holdsGuis );
+		// fill clockspec
+		clockSpec = new ClockSettings( this );
+		holdsGuis.genClockView( clockSpec );
 		mainOp.receiveClockV( holdsGuis.getCview() );
-		//mainOp.channelUp( everything );
-		mainOp.launchClock();
+		mainOp.runClock();
 	}
 
 	// public Run( ClockSettings forValidation )
 	// public Run( file forLoading )
 	// public Run( dbo handleForQuerying )
 
-	public void receiveToOpEv( ToOperationEvent fromConfigView )
+	public void receiveToOpEv( EventVw_Op fromConfigView )
 	{
 		switch ( fromConfigView.why() )
 		{
+		case showSettings:
+		{
+			configger = new SettingsChanger( clockSpec );
+			holdsGuis.genSettingsView( clockSpec );
+			break;
+		}
 		case biggerFont:
 		case smallerFont:
-			configger.changeFont( fromConfigView );
+		case frameX:
+		case frameY:
+		{
+			configger.processMessage( fromConfigView );
+			break;
+		}
 		default:
 			System.out.print( fromConfigView );
 		}
 	}
 
-	public void getUSet( UpdatesSettings fromRunClock )
+	public void receiveToViewEv( EventMd_Vw fromSettings )
 	{
-		configger = fromRunClock;
+		switch( fromSettings.why() )
+		{
+		case fontChange:
+		case frameXchange:
+		case frameYchange:
+		{
+			holdsGuis.routeMessage( fromSettings );
+			break;
+		}
+		default:
+			System.out.println( "hmm?" );
+		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
