@@ -6,13 +6,15 @@ import javax.swing.Timer;
 
 public class RunClock implements ActionListener
 {
-	ClockSettings clockfile;
-	ClockView face;
-	ViewRoot vParent;
-	UpdatesSettings justFont;
+	private Run channelUp;
+	private ClockSettings clockfile;
+	private ClockView face;
+	private ViewRoot vParent;
+	private UpdatesSettings justFont;
 
-	public RunClock()
+	public RunClock( Run mainMainOp )
 	{
+		channelUp = mainMainOp;
 		// perhaps I get info from a file or db or the user, I don't know.
 		clockfile = new ClockSettings();
 	}
@@ -53,7 +55,7 @@ public class RunClock implements ActionListener
 		//System.out.println( "inter object communication" );
 		justFont = new UpdatesSettings( clockfile );
 		vParent.genSettingsView();
-		justFont.receiveSettingsView( vParent.getCSview() );
+		channelUp.getUSet( justFont );
 	}
 
 	public ClockSettings upSettings()

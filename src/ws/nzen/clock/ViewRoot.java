@@ -2,10 +2,16 @@ package ws.nzen.clock;
 
 public class ViewRoot
 {
+	private Run channelUp;
 	private ClockView mainUi;
 	private SettingsView configUi;
 
-	// start clockview
+	public ViewRoot( Run parent )
+	{
+		channelUp = parent;
+	}
+
+	// start clockview, when the settings are ready
 	// listen for config thing
 	public void genClockView( ClockSettings settings )
 	{
@@ -19,11 +25,16 @@ public class ViewRoot
 
 	public void genSettingsView()
 	{
-		configUi = new SettingsView();
+		configUi = new SettingsView( this );
 	}
 
 	public SettingsView getCSview()
 	{
 		return configUi;
+	}
+
+	public void receiveMessage( ToOperationEvent fromBelow )
+	{
+		channelUp.receiveToOpEv( fromBelow );
 	}
 }

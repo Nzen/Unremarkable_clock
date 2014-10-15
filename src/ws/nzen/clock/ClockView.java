@@ -4,11 +4,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Font;
 import java.awt.Insets;
-import java.util.Date;
-import java.text.SimpleDateFormat;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.event.ChangeEvent;
@@ -17,15 +14,13 @@ import javax.swing.event.ChangeListener;
 public class ClockView implements ChangeListener
 {
 	private JFrame frame;
-	private Date now;
 	private JButton editor;
-	private SimpleDateFormat digits;
 	private ClockPane clockFace;
 	//private ClockConfig model;
 
 	public ClockView( ClockSettings fromInit )
 	{
-		frame = new JFrame( "Clock : Nzen" );
+		frame = new JFrame( "Time" );
 		frame.setLocation( fromInit.getXpos(), fromInit.getYpos() );
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel bounds = new JPanel( new GridBagLayout() );
