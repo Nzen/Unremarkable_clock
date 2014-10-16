@@ -50,4 +50,15 @@ public class ClockPane
 	{
 		face.setFont( nn );
 	}
+
+	public void setSize( int ww, int hh )
+        {System.out.print( "reached clockpane setsize" );
+		face.setSize(ww, hh);
+	}
+
+        public int gWid()
+        { return face.getWidth(); }
+
+        public int gHi()
+        {	return face.getHeight(); 	}
 }

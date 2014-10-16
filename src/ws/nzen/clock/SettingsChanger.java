@@ -29,6 +29,25 @@ public class SettingsChanger
 			changeFrameY( fromConfig );
 			break;
 		}
+                case frameW:
+                {
+                    changeFrameWid( fromConfig );
+			break;
+		}
+                case frameH:
+                {
+                    changeFrameHi( fromConfig );
+			break;
+		}
+                case clockW:
+                {
+                    changeClockWid( fromConfig );
+			break;
+		}
+                case clockH:
+                {
+                    changeClockHi( fromConfig );
+                }
 		default:
 			System.out.print( fromConfig );
 		}
@@ -51,4 +70,24 @@ public class SettingsChanger
 		else
 			model.setFontSize( model.getFontSize() - (Integer)fromConfig.val() );
 	}
+
+	private void changeFrameWid( EventVw_Op fromConfig )
+	{
+		model.setFrameWidth( (Integer)fromConfig.val() );
+	}
+
+	private void changeFrameHi( EventVw_Op fromConfig )
+	{
+		model.setFrameHeight( (Integer)fromConfig.val() );
+	}
+   
+	private void changeClockWid( EventVw_Op fromConfig )
+        {
+		model.setWidth( (Integer)fromConfig.val() );
+        }
+   
+	private void changeClockHi( EventVw_Op fromConfig )
+        {
+		model.setHeight( (Integer)fromConfig.val() );
+        }
 }

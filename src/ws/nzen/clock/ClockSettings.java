@@ -19,9 +19,9 @@ public class ClockSettings
 		xPos = 10;
 		yPos = 10;
 		wid = 100;
-		high = 70;
+		high = 50;
 		frameWid = 200;
-		frameHigh = 110;
+		frameHigh = 80;
 		milit = false;
 		hasSec = true;
 		fontSize = 12;
@@ -101,19 +101,33 @@ public class ClockSettings
 	}
 
 	public void setWidth( int newW )
-	{	wid = newW;	}
+	{	
+		wid = newW;
+		channelUp.receiveToViewEv( new EventMd_Vw(newW, FlagModel.clockWchange) );
+	}
 
 	public void setHeight( int newH )
-	{	high = newH;	}
+	{	
+		high = newH;
+		channelUp.receiveToViewEv( new EventMd_Vw(newH, FlagModel.clockHchange) );
+	}
 
 	public void setFrameWidth( int newFrWi )
-	{	frameWid = newFrWi;	}
+	{	
+		frameWid = newFrWi;
+		channelUp.receiveToViewEv( new EventMd_Vw(newFrWi, FlagModel.frameWchange) );
+	}
 
 	public void setFrameHeight( int newFrHi )
-	{	frameHigh = newFrHi;	}
+	{	
+		frameHigh = newFrHi;
+		channelUp.receiveToViewEv( new EventMd_Vw(newFrHi, FlagModel.frameHchange) );
+	}
 
 	public void set12hour( boolean whether )
-	{	milit = whether;	}
+	{	
+		milit = whether;
+	}
 
 	public void setFontSize( int nSize )
 	{

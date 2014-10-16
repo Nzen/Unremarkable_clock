@@ -1,7 +1,5 @@
 
 	15 Oct
-X model sends events
-X FrameW, frameH
 \
  event messaging
 { couldn't as they expect general in arg and then I cast to appropriate. Just put enum inside :p }

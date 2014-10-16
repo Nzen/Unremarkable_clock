@@ -10,10 +10,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-public class ClockView// implements ChangeListener
+public class ClockView
 {
 	private ViewRoot channelUp;
 	private JFrame frame;
@@ -33,16 +31,15 @@ public class ClockView// implements ChangeListener
 		editor = new JButton( "edit" );
 		wireEvents();
 		GridBagConstraints clockRectangle =
-				new GridBagConstraints(0, 0, 3, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0 );
+				new GridBagConstraints(0, 0, 3, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1,1,1,1), 0, 0 );
 		//							gridx, gridy, gridwidth, gridheight, weightx, weighty, anchor, fill, insets, ipadx, ipady
 		bounds.add( clockFace.compPart(), clockRectangle );
 		GridBagConstraints editorRectangle =
-				new GridBagConstraints(2, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0 );
+				new GridBagConstraints(2, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(1,1,1,1), 0, 0 );
 		bounds.add(editor, editorRectangle);
-		//frame.pack(); // appropriate once the w/h refers to the component not the frame
 		frame.setVisible(true);
-
-		//awaitFontChange( fromInit );
+                //
+                processMessage( new EventMd_Vw(fromInit.getWidth(), FlagModel.frameWchange) ); // FIX hack to prevent packing
 	}
 
 	private void wireEvents()
@@ -77,16 +74,37 @@ public class ClockView// implements ChangeListener
 		}
 		case frameXchange:
 		{
-			frame.setLocation( (Integer)changeWhat.val(), (int)frame.getLocation().getY() );
+			frame.setLocation( (Integer)changeWhat.val(), frame.getY() );
 			break;
 		}
 		case frameYchange:
 		{
-			frame.setLocation( (int)frame.getLocation().getX(), (Integer)changeWhat.val() );
+			frame.setLocation( frame.getX(), (Integer)changeWhat.val() );
 			break;
 		}
+                case frameWchange:
+                {
+			frame.setSize((Integer)changeWhat.val(), (int)frame.getSize().getWidth());
+			break;
+		}
+                case frameHchange:
+                {
+			frame.setSize((int)frame.getSize().getHeight(), (Integer)changeWhat.val());
+			break;
+		}
+                case clockWchange:
+                {
+                    clockFace.setSize( (Integer)changeWhat.val(), clockFace.gHi() );
+                    break;
+                }
+                case clockHchange:
+                {
+                    // this version could be inadequate in cases where the user resizes the frame
+                    clockFace.setSize( clockFace.gWid(), (Integer)changeWhat.val() );
+                    break;
+                }
 		default:
-			System.out.println( "hmm?" );
+			System.out.println( "hmm? what;s " + changeWhat );
 		}
 	}
 

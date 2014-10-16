@@ -42,12 +42,16 @@ public class Run
 		case smallerFont:
 		case frameX:
 		case frameY:
+		case frameW:
+		case frameH:
+		case clockW:
+		case clockH:
 		{
 			configger.processMessage( fromConfigView );
 			break;
 		}
 		default:
-			System.out.print( fromConfigView );
+			System.out.print( "what is " + fromConfigView );
 		}
 	}
 
@@ -58,12 +62,16 @@ public class Run
 		case fontChange:
 		case frameXchange:
 		case frameYchange:
+		case frameWchange:
+		case frameHchange:
+		case clockWchange:
+		case clockHchange:
 		{
 			holdsGuis.routeMessage( fromSettings );
 			break;
 		}
 		default:
-			System.out.println( "hmm?" );
+			System.out.println( "hmm? what's " + fromSettings );
 		}
 	}
 }

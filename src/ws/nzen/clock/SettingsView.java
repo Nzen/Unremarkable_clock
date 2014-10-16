@@ -22,6 +22,10 @@ public class SettingsView
 	private JButton smallFonter;
 	private JSpinner xXpos;
 	private JSpinner yYpos;
+	private JSpinner frameWidth;
+	private JSpinner frameHeight;
+	private JSpinner clockWidth;
+	private JSpinner clockHeight;
 	private ViewRoot channelUp; // for event passing only
 
 	public SettingsView( ViewRoot parent, ClockSettings initialVals )// implements ActionListener
@@ -36,14 +40,24 @@ public class SettingsView
 		bounds.add( bigFonter, defaultConstraints(0, 0) );
 		smallFonter = new JButton( "smaller font" );
 		bounds.add( smallFonter, defaultConstraints(1, 0) );
-		JLabel frameXtitle = new JLabel( "Frame X" );
-		bounds.add( frameXtitle, defaultConstraints(0, 1) );
+		bounds.add( new JLabel( "Frame X" ), defaultConstraints(0, 1) ); // column, row
 		xXpos = new JSpinner( new SpinnerNumberModel(initialVals.getXpos(), 0, 5000, 25) );
 		bounds.add( xXpos, defaultConstraints(1, 1) );
-		JLabel frameYtitle = new JLabel( "Frame Y" );
-		bounds.add( frameYtitle, defaultConstraints(0, 2) );
+		bounds.add( new JLabel( "Frame Y" ), defaultConstraints(0, 2) );
 		yYpos = new JSpinner( new SpinnerNumberModel(initialVals.getYpos(), 0, 5000, 25) );
 		bounds.add( yYpos, defaultConstraints(1, 2) );
+		bounds.add( new JLabel( "Frame W" ), defaultConstraints(2, 1) );
+		frameWidth = new JSpinner( new SpinnerNumberModel(initialVals.getFrameWidth(), 30, 5000, 10) );
+		bounds.add( frameWidth, defaultConstraints(3, 1) );
+		bounds.add( new JLabel( "Frame H" ), defaultConstraints(2, 2) );
+		frameHeight = new JSpinner( new SpinnerNumberModel(initialVals.getFrameHigh(), 30, 5000, 10) );
+		bounds.add( frameHeight, defaultConstraints(3, 2) );
+		bounds.add( new JLabel( "Clock W" ), defaultConstraints(0, 3) );
+		clockWidth = new JSpinner( new SpinnerNumberModel(initialVals.getFrameWidth(), 30, 5000, 10) );
+		bounds.add( clockWidth, defaultConstraints(1, 3) );
+		bounds.add( new JLabel( "Clock H" ), defaultConstraints(0, 4) );
+		clockHeight = new JSpinner( new SpinnerNumberModel(initialVals.getFrameHigh(), 30, 5000, 10) );
+		bounds.add( clockHeight, defaultConstraints(1, 4) );
 
 		frame.getContentPane().add( bounds );
 		frame.pack();
@@ -54,40 +68,62 @@ public class SettingsView
 	private void wireEvents() // Sorry for the dissonant code style.
 	{
 		bigFonter.addActionListener(
-			new ActionListener() {
+			new ActionListener() { @Override
 				public void actionPerformed( ActionEvent buttonPress ) {
 					channelUp.receiveMessage( new EventVw_Op( new Integer(5), FlagView.biggerFont ) );
 			}	}
 		);
 		smallFonter.addActionListener(
-			new ActionListener() {
+			new ActionListener() { @Override
 				public void actionPerformed( ActionEvent buttonPress ) {
 					channelUp.receiveMessage( new EventVw_Op( new Integer(5), FlagView.smallerFont ) );
 			}	}
 		);
 		xXpos.addChangeListener(
-			new ChangeListener() {
+			new ChangeListener() { @Override
 				public void stateChanged( ChangeEvent spinnerSpun ) {
 					channelUp.receiveMessage( new EventVw_Op( (Integer)xXpos.getValue(), FlagView.frameX ) );	
 			}	}
 		);
 		yYpos.addChangeListener(
-				new ChangeListener() {
+				new ChangeListener() { @Override
 					public void stateChanged( ChangeEvent spinnerSpun ) {
 						channelUp.receiveMessage( new EventVw_Op( (Integer)yYpos.getValue(), FlagView.frameY ) );	
 				}	}
 			);
+		frameWidth.addChangeListener(
+				new ChangeListener() { @Override
+					public void stateChanged( ChangeEvent spinnerSpun ) {
+						channelUp.receiveMessage( new EventVw_Op( (Integer)frameWidth.getValue(), FlagView.frameW ) );	
+				}	}
+			);
+		frameHeight.addChangeListener(
+				new ChangeListener() { @Override
+					public void stateChanged( ChangeEvent spinnerSpun ) {
+						channelUp.receiveMessage( new EventVw_Op( (Integer)frameHeight.getValue(), FlagView.frameH ) );	
+				}	}
+			);
+		clockWidth.addChangeListener(
+				new ChangeListener() { @Override
+					public void stateChanged( ChangeEvent spinnerSpun ) {
+						channelUp.receiveMessage( new EventVw_Op( (Integer)clockWidth.getValue(), FlagView.clockW ) );	
+				}	}
+			);
+		clockHeight.addChangeListener(
+				new ChangeListener() { @Override
+					public void stateChanged( ChangeEvent spinnerSpun ) {
+						channelUp.receiveMessage( new EventVw_Op( (Integer)clockHeight.getValue(), FlagView.clockH ) );	
+				}	}
+			);
 	}
 
-	private GridBagConstraints defaultConstraints( int row, int column )
+	private GridBagConstraints defaultConstraints( int column, int row )
 	{
-		return new GridBagConstraints(row, column, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0 );
+		return new GridBagConstraints(column, row, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1,1,1,1), 0, 0 );
 		//							gridx, gridy, gridwidth, gridheight, weightx, weighty, anchor, fill, insets, ipadx, ipady
 	}
 }
 /*
-	private int xPos;
-	private int yPos;
 	private int wid;
 	private int high;
 	private boolean milit;

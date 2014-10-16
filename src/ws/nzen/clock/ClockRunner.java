@@ -22,8 +22,8 @@ public class ClockRunner
 	public void runClock()
 	{
 		final int delay = 500;
-		Timer renew = new Timer( delay, new ActionListener() { // half second update
-	        public void actionPerformed(ActionEvent evt) {
+		Timer renew = new Timer( delay, new ActionListener() { @Override
+	        public void actionPerformed(ActionEvent evt) { // half second update
 	            face.updateTime( delay );
 	        }
 	    } );
