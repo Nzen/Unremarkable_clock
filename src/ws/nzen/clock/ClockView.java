@@ -38,8 +38,7 @@ public class ClockView
 				new GridBagConstraints(2, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(1,1,1,1), 0, 0 );
 		bounds.add(editor, editorRectangle);
 		frame.setVisible(true);
-                //
-                processMessage( new EventMd_Vw(fromInit.getWidth(), FlagModel.frameWchange) ); // FIX hack to prevent packing
+		// processMessage( new EventMd_Vw(fromInit.getWidth(), FlagModel.frameWchange) ); // FIX hack to prevent packing
 	}
 
 	private void wireEvents()

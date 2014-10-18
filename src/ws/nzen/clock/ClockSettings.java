@@ -20,8 +20,8 @@ public class ClockSettings
 		yPos = 10;
 		wid = 100;
 		high = 50;
-		frameWid = 200;
-		frameHigh = 80;
+		frameWid = 400;
+		frameHigh = 400;
 		milit = false;
 		hasSec = true;
 		fontSize = 12;
